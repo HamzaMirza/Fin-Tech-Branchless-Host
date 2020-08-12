@@ -3,33 +3,25 @@ var app = express();
 var fs = require("fs");
 const path = require('path');
 
-var now = new Date();
-var logfile_name = './src/logs/verbose-' + now.getFullYear() + "-"+ now.getMonth() + "-" + now.getDate() +'.log';
 
-var trueLog = console.log;
-console.logCopy = console.log.bind(console);
-console.log = function(msg) {
-    var timestamp = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')+"  || ";
-    fs.appendFile(logfile_name,timestamp+"  ||  " + msg + "\n", function(err) {
-        if(err) {
-            return trueLog(err);
-        }
-    });
-    this.logCopy(msg);
+const opts = {
+    errorEventName:'error',
+        logDirectory:'./src/logs/',
+        fileNamePattern:'verbose-<DATE>.log',
+        dateFormat:'YYYY-MM-DD'
 };
+var SimpleLogger = require('simple-node-logger'),
+    manager = new SimpleLogger({ errorEventName:'error' }),
+    logger;
+manager.createConsoleAppender();
+manager.createRollingFileAppender ( opts );
+logger = manager.createLogger( '', 'trace' );
 
 
-fs.existsSync(logfile_name, function(exists) {
-    if (!exists) {
-        fs.writeFile(logfile_name);
-    }
-});
+exports.logger = logger;
 
 var routes = require('./routes.js');
 
-
-/*app.get('*',routes.Anypath );
-app.post('*',routes.Anypath ); */
 app.post('/rest/AccountBalanceInquiry',routes.AccountBalanceInquiry );
 app.post('/rest/TitleFetch',routes.TitleFetch );
 app.post('//rest/IBFT',routes.IBFT );
@@ -41,5 +33,5 @@ app.post('//rest/MiniStatement',routes.MiniStatement );
 var server = app.listen(6003, function () {
    var host = server.address().address;
    var port = server.address().port;
-   console.log("Branchless Host listening at port:" + port);
+   logger.info("Branchless Host listening at port:" + port);
 });

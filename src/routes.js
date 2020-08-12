@@ -1,52 +1,54 @@
 const pathToResponseFolder =  __dirname + "/responses/";
 
-// AccountBalanceInquiry
-var fs = require("fs");
 
+var fs = require("fs");
+var logger = require("./app.js").logger;
+
+// AccountBalanceInquiry
 exports.AccountBalanceInquiry = function (req, res) {
   var data = fs.readFileSync(pathToResponseFolder + "balanceInquiry.json");
-  console.log("AccountBalanceInquiry"+data);  
+  logger.info("AccountBalanceInquiry"+data);  
   res.end(data);
 };
 
 // TitleFetch
 exports.TitleFetch = function (req, res) {
   var data = fs.readFileSync(pathToResponseFolder + "titleFetch.json");
-  console.log("TitleFetch"+data);  
+  logger.info("TitleFetch"+data);  
   res.end(data);
 };
 
 // IBFT
 exports.IBFT = function (req, res) {
   var data = fs.readFileSync(pathToResponseFolder + "ibft.json");
-  console.log("IBFT" + "," +data);  
+  logger.info("IBFT" + "," +data);  
   res.end(data);
 };
 
 // FundsTransfer
 exports.FundsTransfer = function (req, res) {
   var data = fs.readFileSync(pathToResponseFolder + "fundTransfer.json");
-  console.log("FundsTransfer"+data);  
+  logger.info("FundsTransfer"+data);  
   res.end(data);
 };
 
 // MiniStatement
 exports.MiniStatement = function (req, res) {
   var data = fs.readFileSync(pathToResponseFolder + "miniStatement.json");
-  console.log("MiniStatement"+data);  
+  logger.info("MiniStatement"+data);  
   res.end(data);
 };
 
 // CashWithdrawal
 exports.CashWithdrawal = function (req, res) {
   var data = fs.readFileSync(pathToResponseFolder + "miniStatement.json");
-  console.log("CashWithdrawal"+data);  
+  logger.info("CashWithdrawal"+data);  
   res.end(data);
 };
 
 // Anypath
 exports.Anypath = function (req, res) {
   var data = fs.readFileSync(pathToResponseFolder + "miniStatement.json");
-  console.log(req.url);  
+  logger.info(req.url);  
   res.end(data);
 };
